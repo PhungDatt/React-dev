@@ -1,0 +1,197 @@
+
+
+body html{
+    font-family:'SVN-Helvetica Now';
+    color:#003664;
+}
+                                                                                      
+                                                                                      /*===============
+                                                                                                Navbar
+                                                                                        ================*/
+ .Navbar-ticky{
+    position: sticky  !important  ;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 1000;
+
+ }
+.logo{
+    margin-left: 30px;
+    width:100px;
+}
+                                                                                /*====================
+                                                                                Drop down 
+                                                                             =====================*/
+.text-navbar{
+    color:#003664 !important;
+    background: #FFFF !important;
+    margin-left: 10px;
+}
+.text-navbar:hover{
+    background-color:red !important;
+    border: none !important;
+    border-radius: 0% !important;
+        font-size: 18px;
+    color: #ffffff !important;
+}
+                                                                                /*=======================
+                                                                                        Modals Show
+                                                                                =========================*/
+.modal show{
+    display: block;
+    position: initial;
+    top: 60px !important;
+    z-index: 100;
+}
+
+                                                                                /*===============
+                                                                                Carousels
+                                                                                ================*/
+ .Carousels-items{
+    height:600px;
+ }
+ .logo-beta{
+    margin-left:20px;
+    height: 40px;
+ }
+
+                                                                                /*===============
+                                                                                Title content - Popup events
+                                                                                ================*/
+.title-content{
+    width:100%;
+    background-color: #111;
+    color: greenyellow;
+    text-align: center;
+    padding:20px;
+}
+.title-content:hover {
+   background-color: #003664;
+   color:#fff;
+}
+.video-content{
+    width:100% !important;
+    height:150px !important;
+}
+                                                                        /*===============
+                                                                        Carousels 
+                                                                        ================*/
+                                                                        /*===============
+                                                                        VMS
+                                                                        ================*/
+.Name-VMS{
+    padding:10px;
+    background-color: Black;
+    color:yellow;
+    text-align: center;
+
+}
+                                                                        /*===============
+                                                                        Footer
+                                                                        ================*/ 
+.Footer{
+    width:100%;
+    height:120px;
+}
+.Footer-01{
+    width:100%;
+    height:500px;
+}
+.Footer-02{
+    width:100%;
+    height:40px;
+    padding: 5px;
+    background-color:#3E59D9    ;
+    color:#fff;
+}
+                                                                    /*======================
+                                                                        404 page
+                                                                    =======================*/
+
+.page_404{
+    margin-left: 15%;
+     padding:40px ; 
+     color:#003664;
+     background:#fff;
+}
+
+.page_404  img{ width:100%;}
+
+.four_zero_four_bg{   
+
+    background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+    height: 400px;
+    background-position: center;
+}
+ 
+ 
+.four_zero_four_bg h1{
+    font-size:80px;
+}
+ 
+.four_zero_four_bg h3{
+	font-size:80px;
+}
+			 
+.link_404{			 
+	color: #fff!important;
+    padding: 10px 20px;
+    background: red;
+    margin: 20px 0;
+    display: inline-block;
+   text-decoration: none;
+
+}
+.link_404:hover{
+    color:red;
+    background:#003664;
+}
+
+.contant_box_404{ margin-top:-50px;}
+                                                                    /*=======================
+                                                                    Source-img
+                                                                    ========================*/
+.Source-img{
+    width:100%;
+    height:auto;
+}
+                                                                    /*============================
+                                                                    chart
+                                                                    =========================*/
+.pie-chart{
+    margin-left: 10%;
+    width:30% !important;
+    height:30% !important;
+}
+.pie-chart h3{
+    margin-left: 20% !important;
+    color:#003664;
+}
+                                                                    /*=========================
+                                                                    Login-form
+                                                                    ===========================*/
+.Login-from{
+    
+    padding: 20px;
+    margin-left:35%;
+    margin-top:10%;
+    width:30% !important;
+    height: 400px;
+    border: 1px solid ;
+    border-radius: 10px;
+    border-color: aqua;
+}
+.Login-from:hover{
+    background-color: red;
+    color:#003664;
+    border-color: red;
+}
+.Login-from-img{
+    margin-left: 30%  !important;
+    width:30%;
+   margin:auto;
+}
+.customColumn{
+    color:greenyellow !important ;
+    background-color: #000 !important;
+}

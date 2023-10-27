@@ -1,0 +1,123 @@
+{ 
+    "users": [
+    {
+      "id":"1",
+      "username": "admin",
+      "password": "admin123"
+    },
+    {
+      "username": "user1",
+      "password": "user123"
+    }
+  ]
+    ,
+    "Cameras" : [
+        {
+            "id": "1",
+            "position":"",
+            "title": "",
+            "name": "",
+            "location":"",
+            "drive":"",
+            "image": "",
+            "video":"",
+            "note":"",
+            "createid":"",
+            "createtime":"",
+            "writeid": "",
+            "writetime":""
+
+        },
+        {
+            "id": "",
+            "position":"",
+            "title": "",
+            "name": "",
+            "location":"",
+            "drive":"",
+            "image": "",
+            "video":"",
+            "note":"",
+            "createid":"",
+            "createtime":"",
+            "writeid": "",
+            "writetime":""
+
+        }
+    
+
+    ],
+
+    "Traffic":[
+        {
+            "id": "",
+            "position":"",
+            "title": "",
+            "name": "",
+            "location":"",
+            "drive":"",
+            "image": "",
+            "video":"",
+            "note":"",
+            "createid":"",
+            "createtime":"",
+            "writeid": "",
+            "writetime":""
+
+        },
+        {
+            "id": "",
+            "position":"",
+            "title": "",
+            "name": "",
+            "location":"",
+            "drive":"",
+            "image": "",
+            "video":"",
+            "note":"",
+            "createid":"",
+            "createtime":"",
+            "writeid": "",
+            "writetime":""
+
+        }
+       
+    ],
+
+    "Rescues" :[
+        {
+            "id": "",
+            "position":"",
+            "title": "",
+            "name": "",
+            "location":"",
+            "drive":"",
+            "image": "",
+            "video":"",
+            "note":"",
+            "createid":"",
+            "createtime":"",
+            "writeid": "",
+            "writetime":""
+
+        },
+        {
+            "id": "",
+            "position":"",
+            "title": "",
+            "name": "",
+            "location":"",
+            "drive":"",
+            "image": "",
+            "video":"",
+            "note":"",
+            "createid":"",
+            "createtime":"",
+            "writeid": "",
+            "writetime":""
+
+        }
+ 
+        
+    ]   
+}
