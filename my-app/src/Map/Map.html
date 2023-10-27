@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaflet Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" href="path/to/leaflet.markercluster.css" />
+  <script src="path/to/leaflet.markercluster.js"></script> 
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+  <script src="https://kit.fontawesome.com/9ed6a7110f.js" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<!--CSS -->
+
+<style>
+/*create map */
+body {
+    padding: 0;
+    margin: 0;
+}
+html, body, #map {
+    height: 91%;
+    width: 100vw;
+}
+
+/* custom layer control*/
+.leaflet-control-layers {
+    font-size: 15px;
+    background-color: #162d38;
+    color:yellow;
+    margin-top: 80px !important;
+    border-radius: 10px ;
+   
+    }
+.leaflet-control-zoom{
+    margin-top: 80px !important;
+
+
+    
+}
+/* markers*/
+.camera {
+    background-image: url('https://511ny.org/Content/Images/ic_camera.svg');
+    background-size: cover;
+}
+
+/*năng lượng*/
+.power {
+    background-image: url('https://511ny.org/Content/Images/ic_InService_Both.svg');
+    background-size: cover;
+}
+
+/* du lịch */
+.travel {
+    background-image: url('https://511ny.org/Content/Images/ic_closureConstruction.svg');
+    background-size: cover;
+}
+
+li {
+    list-style: none;
+    display: inline-block;
+    
+}
+#weather-controls{
+    padding-top:35px;
+    background-color:#162d38;
+    width:100%;
+    height:30% !important;
+    font-size:15px;
+    color : yellow;
+   
+    
+}
+
+#controls-farme{
+    float: right !important;
+    margin-right: 15px;
+    color : #0038 ;
+}
+#play-controls{
+    float:left;
+
+}
+.custom-layer-control{
+    margin-left: 15px;
+    font-size: 15px !important;
+    
+} 
+</style>
+</head>
+<body>
+    <!-- create map-->
+  <div id="map">
+
+
+  </div>
+
+
+
+  <div id="weather-controls">
+    <ul>
+    <li>
+        <input type="checkbox" id="toggleRadarSatellite"> <i class="fas fa-power-off"></i> TắtRadar </input>
+     
+        <input  type="checkbox" name="kind" checked="checked" onchange="setKind('radar')"> Radar</input>  
+        <input type="checkbox" name="kind" onchange="setKind('satellite')">  Radar Hồng Ngoại</input>
+    </li>
+    <hr/>
+    <div id="play-controls" class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-warning" onclick="stop(); showFrame(animationPosition - 1); return;" value="&lt;" ><</button>
+        <button type="button" class="btn btn-danger" type="button" onclick="playStop();" value="Play / Stop" /><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-radar" viewBox="0 0 16 16">
+            <path d="M6.634 1.135A7 7 0 0 1 15 8a.5.5 0 0 1-1 0 6 6 0 1 0-6.5 5.98v-1.005A5 5 0 1 1 13 8a.5.5 0 0 1-1 0 4 4 0 1 0-4.5 3.969v-1.011A2.999 2.999 0 1 1 11 8a.5.5 0 0 1-1 0 2 2 0 1 0-2.5 1.936v-1.07a1 1 0 1 1 1 0V15.5a.5.5 0 0 1-1 0v-.518a7 7 0 0 1-.866-13.847Z"/>
+          </svg></button>
+        <button type="button" class="btn btn-warning" onclick="stop(); showFrame(animationPosition + 1); return;" value="&gt;" >></button>
+      </div>
+    
+
+    <div id="controls-farme">
+    
+        <li><select id="colors" onchange="setColors(); return;">
+            <option value="0">Không màu</option>
+            <option value="1">Cổ điển</option>
+            <option value="2" selected="selected">Universal Blue</option>
+            <option value="3">TITAN</option>
+            <option value="4">The Weather Channel</option>
+            <option value="5">Meteored</option>
+            <option value="6">NEXRAD Level-III</option>
+            <option value="7">RAINBOW @ SELEX-SI</option>
+            <option value="8">Dark Sky</option>
+        </select></li>
+
+    </div>
+
+
+
+    </ul>
+</div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script>
+                        // Tạo một bản đồ
+                        var map = L.map('map').setView([13.10646250076105, 109.30162609998348], 12);
+                        map.locate({setView: true});
+
+                        map.attributionControl.setPrefix(''); // Tắt astributions
+
+                        // Tạo các lớp bản đồ ngày 
+                        var Light = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            maxZoom: 20,   
+                        }).addTo(map);
+                        // Tạo các lớp bản đồ tối
+                        var Dark = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+                            maxZoom: 20,   
+                        });
+                        var Vetinh = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
+                            maxZoom: 20,   
+                        });
+
+
+                                                                                     /*===================================
+                                                                                    CALL API RADAR
+                                                                                    =====================================*/
+     /**
+     * RainViewer radar animation part
+     * @type {number[]}
+     */
+
+     var apiData = {};
+    var mapFrames = [];
+    var lastPastFramePosition = -1;
+    var radarLayers = [];
+
+    var optionKind = 'radar'; // can be 'radar' or 'satellite'
+    
+
+    var optionTileSize = 256; // can be 256 or 512.
+    var optionColorScheme = 2; // from 0 to 8. Check the https://rainviewer.com/api/color-schemes.html for additional information
+    var optionSmoothData = 1; // 0 - not smooth, 1 - smooth
+    var optionSnowColors = 1; // 0 - do not show snow colors, 1 - show snow colors
+
+    var animationPosition = 0;
+    var animationTimer = false;
+
+    var loadingTilesCount = 0;
+    var loadedTilesCount = 0;
+
+
+    var toggleCheckbox = document.getElementById('toggleRadarSatellite');
+
+    toggleCheckbox.addEventListener('click', function() {
+        var radarLayer = radarLayers[mapFrames[animationPosition].path];
+        var satelliteLayer = radarLayers[mapFrames[animationPosition].path];
+
+        if (toggleCheckbox.checked) {
+            // Tắt radar và satellite
+            if (radarLayer) {
+                map.removeLayer(radarLayer);
+            }
+            if (satelliteLayer) {
+                map.removeLayer(satelliteLayer);
+            }
+        } else {
+            // Bật lại radar và satellite
+            if (radarLayer) {
+                map.addLayer(radarLayer);
+            }
+            if (satelliteLayer) {
+                map.addLayer(satelliteLayer);
+            }
+        }
+    });
+
+
+    function startLoadingTile() {
+        loadingTilesCount++;    
+    }
+    function finishLoadingTile() {
+        // Delayed increase loaded count to prevent changing the layer before 
+        // it will be replaced by next
+        setTimeout(function() { loadedTilesCount++; }, 250);
+    }
+    function isTilesLoading() {
+        return loadingTilesCount > loadedTilesCount;
+    }
+
+    /**
+     * Load all the available maps frames from RainViewer API
+     */
+    var apiRequest = new XMLHttpRequest();
+    apiRequest.open("GET", "https://api.rainviewer.com/public/weather-maps.json", true);
+    apiRequest.onload = function(e) {
+        // store the API response for re-use purposes in memory
+        apiData = JSON.parse(apiRequest.response);
+        initialize(apiData, optionKind);
+    };
+    apiRequest.send();
+
+    /**
+     * Initialize internal data from the API response and options
+     */
+    function initialize(api, kind) {
+        // remove all already added tiled layers
+        for (var i in radarLayers) {
+            map.removeLayer(radarLayers[i]);
+        }
+        mapFrames = [];
+        radarLayers = [];
+        animationPosition = 0;
+
+        if (!api) {
+            return;
+        }
+        if (kind == 'satellite' && api.satellite && api.satellite.infrared) {
+            mapFrames = api.satellite.infrared;
+            lastPastFramePosition = api.satellite.infrared.length - 1;
+            showFrame(lastPastFramePosition, true);
+        }
+        else if (api.radar && api.radar.past) {
+            mapFrames = api.radar.past;
+            if (api.radar.nowcast) {
+                mapFrames = mapFrames.concat(api.radar.nowcast);
+            }
+
+            // show the last "past" frame
+            lastPastFramePosition = api.radar.past.length - 1;
+            showFrame(lastPastFramePosition, true);
+        }
+     
+    }
+
+    
+    /**
+     * Animation functions
+     * @param path - Path to the XYZ tile
+     */
+     function addLayer(frame) {
+        if (!radarLayers[frame.path]) {
+            var colorScheme = optionKind == 'satellite' ? 0 : optionColorScheme;
+            var smooth = optionKind == 'satellite' ? 0 : optionSmoothData;
+            var snow = optionKind == 'satellite' ? 0 : optionSnowColors;
+
+            var source = new L.TileLayer(apiData.host + frame.path + '/' + optionTileSize + '/{z}/{x}/{y}/' + colorScheme + '/' + smooth + '_' + snow + '.png', {
+                tileSize: 256,
+                opacity: 0.01,
+                zIndex: frame.time
+            });
+
+            // Track layer loading state to not display the overlay 
+            // before it will completelly loads
+            source.on('loading', startLoadingTile);
+            source.on('load', finishLoadingTile); 
+            source.on('remove', finishLoadingTile);
+
+            radarLayers[frame.path] = source;
+        }
+        if (!map.hasLayer(radarLayers[frame.path])) {
+            map.addLayer(radarLayers[frame.path]);
+        }
+    }
+        /**
+     * Display particular frame of animation for the @position
+     * If preloadOnly parameter is set to true, the frame layer only adds for the tiles preloading purpose
+     * @param position
+     * @param preloadOnly
+     * @param force - display layer immediatelly
+     */
+     function changeRadarPosition(position, preloadOnly, force) {
+        while (position >= mapFrames.length) {
+            position -= mapFrames.length;
+        }
+        while (position < 0) {
+            position += mapFrames.length;
+        }
+
+        var currentFrame = mapFrames[animationPosition];
+        var nextFrame = mapFrames[position];
+
+        addLayer(nextFrame);
+
+        // Quit if this call is for preloading only by design
+        // or some times still loading in background
+        if (preloadOnly || (isTilesLoading() && !force)) {
+            return;
+        }
+
+        animationPosition = position;
+
+        if (radarLayers[currentFrame.path]) {
+            radarLayers[currentFrame.path].setOpacity(0);
+        }
+        radarLayers[nextFrame.path].setOpacity(100);
+
+
+        var pastOrForecast = nextFrame.time > Date.now() / 1000 ? 'FORECAST' : 'PAST';
+
+        document.getElementById("timestamp").innerHTML = pastOrForecast + ': ' + (new Date(nextFrame.time * 1000)).toString();
+    }
+
+
+
+    /**
+     * Check avialability and show particular frame position from the timestamps list
+     */
+    function showFrame(nextPosition, force) {
+        var preloadingDirection = nextPosition - animationPosition > 0 ? 1 : -1;
+
+        changeRadarPosition(nextPosition, false, force);
+
+        // preload next next frame (typically, +1 frame)
+        // if don't do that, the animation will be blinking at the first loop
+        changeRadarPosition(nextPosition + preloadingDirection, true);
+    }
+
+    /**
+     * Stop the animation
+     * Check if the animation timeout is set and clear it.
+     */
+    function stop() {
+        if (animationTimer) {
+            clearTimeout(animationTimer);
+            animationTimer = false;
+            return true;
+        }
+        return false;
+    }
+
+    function play() {
+        showFrame(animationPosition + 1);
+
+        // Main animation driver. Run this function every 500 ms
+        animationTimer = setTimeout(play, 500);
+    }
+
+    function playStop() {
+        if (!stop()) {
+            play();
+        }
+    }
+
+    /**
+     * Change map options
+     */
+    function setKind(kind) {
+        optionKind = kind;
+        initialize(apiData, optionKind);
+    }
+
+
+    function setColors() {
+        var e = document.getElementById('colors');
+        optionColorScheme = e.options[e.selectedIndex].value;
+        initialize(apiData, optionKind);
+    }
+
+
+    /**
+     * Handle arrow keys for navigation between next \ prev frames
+     */
+    document.onkeydown = function (e) {
+        e = e || window.event;
+        switch (e.which || e.keyCode) {
+            case 37: // left
+                stop();
+                showFrame(animationPosition - 1, true);
+                break;
+
+            case 39: // right
+                stop();
+                showFrame(animationPosition + 1, true);
+                break;
+
+            default:
+                return; // exit this handler for other keys
+        }
+        e.preventDefault();
+        return false;
+    }
+                    
+                      
+                      
+                      
+                      
+                                                                                                /*=======================================
+                                                                                                        Đối tượng chủ quyền
+                                                                                                ========================================*/
+                        const vn = L.layerGroup();
+                        
+                          // create icon marker
+                          var vnIcon = L.divIcon({
+                            className: 'vn',
+                            iconSize: [20, 32],
+                            iconAnchor: [22, 94],
+                            popupAnchor: [-3, -76],
+                        })
+
+
+                        // Tạo các lớp con
+                        var vn1 = L.marker([16.665399911434395, 112.73265352782167], { icon: vnIcon })
+                            .bindPopup("Quần đảo HOÀNG SA, thuộc chủ quyền của Việt Nam")
+                            .openPopup();
+
+
+                        var vn2 = L.marker([13.08984530673407, 109.2954851204431], { icon: vnIcon })
+                            .bindPopup("Quần đảo Trường Sa, thuộc chủ quyền của Việt Nam")
+                            .openPopup();
+                        
+                        // Thêm Nhóm lớp vào bản đồ
+                        vn.addTo(map);
+                        
+                                                                                                    /*=======================================
+                                                                                                            Đối tượng năng lượng
+                                                                                                    ========================================*/
+
+                        // Tạo một Nhóm lớp mới
+                        var Power = L.layerGroup();
+
+                        // create icon marker
+                        var PowerIcon = L.divIcon({
+                            className: 'power',
+                            iconSize: [20, 32],
+                            iconAnchor: [22, 94],
+                            popupAnchor: [-3, -76],
+                        })
+
+
+                        // Tạo các lớp con
+                        var Power1 = L.marker([13.093600240428142, 109.29805519769432], { icon: PowerIcon })
+                            .bindPopup("<div style='width:100%;'><h5>Thông tin trạm năng lượng</h5><a> Chỉ đường</a><br/><div class='content-power' style='background-color:#000;color:greenyellow;text-align:center;padding:10px;'><p><i class='fa-solid fa-square-parking'></i>ĐỖ XE ĐÚNG QUI ĐỊNH</p></div></div>")
+                            .openPopup();
+
+
+                        var Power2 = L.marker([13.08984530673407, 109.2954851204431], { icon: PowerIcon })
+                            .bindPopup("<div style='width:100%;'><h5>Thông tin trạm năng lượng</h5><div class='content-power' style='background-color:#000;color:greenyellow;text-align:center;padding:10px;'><p><i class='fa-solid fa-fire'></i> CẤM LỬA </p></div></div>")
+                            .openPopup();
+
+                        // Thêm các lớp con vào Nhóm lớp
+                        Power.addLayer(Power1);
+                        Power.addLayer(Power2);
+
+                        // Thêm Nhóm lớp vào bản đồ
+                        Power.addTo(map);
+                        
+                                                                                                    /*=============================================
+                                                                                                    TẠO ĐỐI TƯỢNG CAMERA 
+                                                                                                    ==============================================*/
+
+                        // Tạo một Nhóm lớp mới
+
+                        var camera = L.layerGroup();
+
+                        // create icon marker
+                        var cameraIcon = L.divIcon({
+                            className: 'camera',
+                            iconSize: [20, 32],
+                            iconAnchor: [22, 94],
+                            popupAnchor: [-3, -76],
+                        })
+
+                        // Tạo các lớp con
+                        var camera1 = L.marker([13.0918090719813, 109.29499105794929], { icon: cameraIcon })
+                            .bindPopup("<div style='width:100%;'><h5>Thông tin Camera</h5><div class='content-power' style='background-color:#000;color:greenyellow;text-align:center;padding:10px;'><p>CẤM LỬA </p></div></div>")
+                            .openPopup();
+                        var camera2 = L.marker([13.095980393207496, 109.3025946803165], { icon: cameraIcon });
+
+                        // Thêm các lớp con vào Nhóm lớp
+                        camera.addLayer(camera1);
+                        camera.addLayer(camera2);
+
+                        // Thêm Nhóm lớp vào bản đồ
+                        camera.addTo(map);
+
+                                                                                                /*===================================
+                                                                                                TẠO ĐỐI TƯỢNG DU LỊCH
+                                                                                                ====================================*/
+
+                        // Tạo một nhóm mới
+                        const travel = L.layerGroup();
+
+                        // create icon marker
+                        var travelIcon = L.divIcon({
+                            className: 'travel',
+                            iconSize: [20, 32],
+                            iconAnchor: [22, 94],
+                            popupAnchor: [-3, -76],
+                        })
+
+                        // Tạo các lớp con 
+
+                        const travel1 = L.marker([13.117281711612968, 109.30710617816601], { icon: travelIcon });
+                        const travel2 = L.marker([13.083247194674323, 109.30171478875764], { icon: travelIcon });
+
+                        // Thêm các đối tượng vào nhóm 
+                        travel.addLayer(travel1);
+                        travel.addLayer(travel2);
+
+                        // Thêm đối tượng vào bản đồ
+
+                        travel.addTo(map);
+
+                        /*=================================================
+                        Gelocation 
+                        ===================================================*/
+
+
+
+
+
+
+                                                                            ///////////////////////////////////////////////////////////////////////////////
+                                                                            /////////////////////////////// Service - Controls Groups /////////////////////
+                                                                            /////////////////////////////////////////////////////////////////////////////
+                        // Tạo một đối tượng kiểm soát lớp
+                        var baseLayers = {
+                            '<i class="fas fa-sun"></i> Sáng': Light,
+                            '<i class="fas fa-moon"></i> Tối': Dark,
+                            '<i class="fas fa-globe-europe"></i> Vệ tinh': Vetinh
+                          
+                        };
+                        var overlayLayers = {
+                           ' <i class="fas fa-plug"></i> Trạm sạc': Power,
+                            ' <i class="fas fa-camera"></i> Camera ': camera,
+                           '<i class="fas fa-map-marked-alt"></i> Điểm đến': travel,
+                        };
+
+                        var layerControl = L.control.layers(baseLayers, overlayLayers,
+                        {      
+                            className: 'custom-zoom-control',
+                            className: 'custom-layer-control'
+                        }).addTo(map);
+
+                                                                            ///////////////////////////////////////////////////////////////////////////////
+                                                                            /////////////////////////////// Service - Clustering /////////////////////
+                                                                            /////////////////////////////////////////////////////////////////////////////
+                
+
+         </script>
+
+
+
+</body>
+</html>
